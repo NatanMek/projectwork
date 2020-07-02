@@ -1,12 +1,17 @@
-from numpy import *
+a = [[], [], [], [], []]
+b = [[], [], [], [], []]
 
-b = array([[0, 1, 2, 3],
-           [10, 11, 12, 13],
-           [20, 21, 22, 23],
-           [30, 31, 32, 33],
-           [40, 41, 42, 43]])
 
+for i in range(5):
+    a[i].append()
+    for k in range(5):
+        a[i].append()
+
+
+cont = 0
 for row in b:
-    print(row)
     for el in row:
-        print(" ", el)
+        if b == el.any():
+            cont = cont+1
+
+print(f'questi {cont} elementi corrispondono')
