@@ -34,7 +34,7 @@ class VendingMachine:
 
 def switch(choice):
     switcher = {
-        1: "Preparing high quality coffee beans...""  "
+        1: "Preparing High Quality coffee beans..."
            "Brewing coffee..."
            "Caffè is served",
         2: "Making Cappucino..."
@@ -74,6 +74,8 @@ def main():
     while True:
         try:
             user_selection = int(input("Please enter the desired item code: "))
+            if user_selection not in vending_machine.items:
+                print("Invalid item code, please try again...")
         except ValueError:
             continue
         if user_selection in range(1, len(vending_machine.items)+1):
@@ -87,7 +89,6 @@ def main():
         print("You choose medium quantity of sugar")
     elif sugar_choice == '3':
         print("You choose maximum quantity of sugar")
-    switch(user_selection)
     while vending_machine.money_inserted < item.price:
         print(f"You've inserted €{vending_machine.money_inserted:.2f} into the machine so far.")
         while True:
@@ -98,6 +99,7 @@ def main():
                 continue
             else:
                 break
+    switch(user_selection)
     print(f"Thank you! Please take your \"{item.name}\".")
     print(f"The remaining change in the machine is €{vending_machine.money_inserted - item.price:.2f}.")
 
