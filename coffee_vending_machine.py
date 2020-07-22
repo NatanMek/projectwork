@@ -1,3 +1,7 @@
+import sys
+import time
+
+
 class Item:  # define class Item with  2 parameters (name, price)
 
     def __init__(self, name, price):
@@ -35,41 +39,49 @@ class VendingMachine:  # define VendingMachine class and initialize with all the
         self.money_inserted += money
 
 
-def main():
+def update(total, progress):
 
+    bar_length, status = 20, ""
+    progress = float(progress) / float(total)
+    if progress >= 1.:
+        progress, status = 1, "\r\n"
+    block = int(round(bar_length * progress))
+    text = "\r[{}] {:.0f}% {}".format(
+        "#" * block + "-" * (bar_length - block), round(progress * 100, 0),
+        status)
+    sys.stdout.write(text)
+    sys.stdout.flush()
+
+
+runs = 30
+
+
+def main():
     vending_machine = VendingMachine()
     vending_machine.display_items()
 
     def switch(choice):  # switch function in order to display preparation of the item
         switcher = {
             1: "Preparing High Quality coffee beans..."
-               "Brewing coffee..."
-               "Caffè is served",
+               "Brewing coffee...",
             2: "Making Cappucino..."
                "Steaming the milk..."
                "Frothing the milk..."
                "Making espresso..."
-               "Adding the milk to the espresso..."
-               "Cappuccino is served",
+               "Adding the milk to the espresso...",
             3: "Making milk..."
                "Making espresso..."
                "Steaming the milk..."
-               "Adding the milk to the espresso..."
-               "Macchiato is served",
-            4: "Making 40 ml of coffee..."
-               "Caffè lungo is served",
-            5: "Making 20 ml of coffee..."
-               "Caffè Ristretto is served",
+               "Adding the milk to the espresso...",
+            4: "Making 40 ml of coffee...",
+            5: "Making 20 ml of coffee...",
             6: "Making Latte..."
-               "Adding 20 ml of coffee to Latte..."
-               "Latte macchiato is ready",
+               "Adding 20 ml of coffee to Latte...",
             7: "Making espresso..."
-               "Adding 70 ml of water..."
-               "Americano is served",
+               "Adding 70 ml of water...",
             8: "Making Espresso..."
                "Preparing microfoam of milk..."
-               "Adding microfoam to the espresso..."
-               "Flat White is served",
+               "Adding microfoam to the espresso...",
         }
         print(switcher.get(choice, "Invalid item"))
 
@@ -99,7 +111,8 @@ def main():
         if credit - item.price < 0:
             print(f"You're key card has not sufficient credit!")
             while True:
-                credit_to_insert = float(input(f"You need to insert €{abs(credit - item.price): .2f} in order to continue: "))
+                credit_to_insert = float(
+                    input(f"You need to insert €{abs(credit - item.price): .2f} in order to continue: "))
                 credit = credit_to_insert + credit
                 if credit >= item.price:
                     print("Well done! Let's continue..")
@@ -108,6 +121,9 @@ def main():
             print(f"You're key card has €{credit:.2f}.")
         remaining_money_key = credit - item.price
         switch(selected)
+        for run_num in range(runs):
+            time.sleep(.1)
+            update(runs, run_num + 1)
         print(f"Thank you! Please take your \"{item.name}\".")
         print(f"The remaining change in your key card is €{remaining_money_key:.2f}.")
         print("Have a nice day!")
@@ -122,11 +138,11 @@ def main():
                 exit(1)
             else:
                 user_selection = int(input("Please enter the desired item code: "))
-            if user_selection not in range(1, len(vending_machine.items)+1):
+            if user_selection not in range(1, len(vending_machine.items) + 1):
                 print("Invalid item code, please try again...")
         except ValueError:
             continue
-        if user_selection in range(1, len(vending_machine.items)+1):
+        if user_selection in range(1, len(vending_machine.items) + 1):
             break
     item = vending_machine.items[user_selection - 1]
     print(f"You've selected \"{item.name}\" - the price is €{item.price:.2f}")
@@ -149,6 +165,9 @@ def main():
             else:
                 break
     switch(user_selection)
+    for run_num in range(runs):
+        time.sleep(.1)
+        update(runs, run_num + 1)
     print(f"Thank you! Please take your \"{item.name}\".")
     print(f"The remaining change in the machine is €{vending_machine.money_inserted - item.price:.2f}.")
     print("Have a nice day!")
@@ -158,4 +177,5 @@ def main():
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(main())
