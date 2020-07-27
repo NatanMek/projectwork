@@ -1,31 +1,65 @@
-def badge():
-    name = "Natan"
-    surname = "Mek"
-    cf = "MKNNTN93R28F205I"
+import random
+import datetime
+date_format = "%d/%m/%Y %H:%M:%S"
+
+Name = []
+Surname = []
+Tax_code = []
+Badge_number = []
+Presence = []
 
 
-a = 3
-b = 5
+def newbadge():
 
-admitted = ["Luca", "Stefano", "Natan"]
-print(len(admitted))
-print(admitted)
+    name = input("Nome: ")
+    Name.append(name)
+    surname = input("Surname: ")
+    Surname.append(surname)
+    tax_code = input("C.F: ")
+    Tax_code.append(tax_code)
+    Presence.append(False)
+    date = datetime.datetime.now().strftime(date_format)
+    Badge_number.append(random.randint(1, 100))
+    print(f'This is your data:\n Name:{Name[-1]}\n Surname:{Surname[-1]}\n Tax Code:{Tax_code[-1]}\n Badge_number:{Badge_number[-1]}')
 
 
-def setnew():
-    new = input("New Employee: ")
-    admitted.append(new)
+def access():
 
-
-new_list = input("New Employee: ")
-
-admitted.append(new_list)
-print(admitted)
-i = 0
-
-name_info = input("What's your name?:  ")
-for v in admitted:
-    if name_info == v:
-        print(v, "Access Granted!")
+    number = int(input("Insert your Badge number: "))
+    cont = 0
+    for i in range(len(Badge_number)):
+        if number == Badge_number[i]:
+            cont = cont + 1
+            Presence[i] = True
+    if cont > 0:
+        print(f"Welcome {Name[-1]}!")
     else:
-        print(v, "Access not granted! Wait for your turn...")
+        print("The Badge number you've inserted is incorrect")
+
+
+def exit():
+
+    number = int(input("Insert your Badge number: "))
+    cont = 0
+    for i in range(len(Badge_number)):
+        if number == Badge_number[i]:
+            cont = cont + 1
+            Presence[i] = False
+    if cont > 0:
+        print(f"Goodbye {Name[-1]}!")
+    else:
+        print("The Badge number you've inserted is incorrect")
+
+
+while True:
+
+    print("1: Access\n2: Exit\n3: Create new User")
+    choice = int(input("> "))
+    if 0 < choice < 4:
+        if choice == 1:
+            access()
+        if choice == 2:
+            exit()
+            break
+        if choice == 3:
+            newbadge()
