@@ -24,7 +24,7 @@ def start():
             cur.execute('INSERT INTO Dati_Sensore (Nome,Umidita,Carica_Batterica,Temperatura,Log) \
                 VALUES (?, ?, ?, ?, ?)', (nome, str(umidita) + '%', str(carica_batterica) + '%', str(temperatura) + u"\N{DEGREE SIGN}C", str(log)))
             print(
-                f"Scan completed. This is the data inserted into DB:\n Nome: {nome}\n Temperatura: {temperatura}\N{DEGREE SIGN}C\n Umidità: {umidita}%\n Carica Batterica: {carica_batterica}%\n Data: {log}")
+                f"Scan completed. This is the data inserted into DB:\n Nome: {nome}\n Temperatura: {temperatura}\n Umidità: {umidita}%\n Carica Batterica: {carica_batterica}%\n Data: {log}")
         except sqlite3.Error as error:
             print("Failed to insert data into sqlite table", error)
 
@@ -47,7 +47,8 @@ def fetch_data():
         finally:
             cur.close()
 
-    cities = ['Milano', 'Torino', 'Roma', 'Napoli', 'Venezia']
+    # cities = ['Milano', 'Torino', 'Roma', 'Napoli', 'Venezia']
+    cities = [result[0][5], result[1][5], result[2][5], result[3][5], result[4][5]]
 
     fig = go.Figure(data=[
         go.Bar(name='Umidità', x=cities, y=[result[0][2], result[1][2], result[2][2], result[3][2], result[4][2]]),
